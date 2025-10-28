@@ -1,0 +1,15 @@
+services:
+  backend:
+    build: ./backend
+    container_name: fastapi-backend
+    ports:
+      - "8443:8443"
+
+  go-agent:
+    build: ./go-agent
+    container_name: go-agent
+    depends_on:
+      - backend
+    environment:
+      - SERVER_URL=https://backend:8443/metrics
+      - JWT_SECRET=super_secret_key
